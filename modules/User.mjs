@@ -1,36 +1,42 @@
-import BankAccount from './BankAccount';
-class User {
+import BankAccount from './BankAccount.mjs';
 
+class User {
     constructor(userName, emailAddress) {
         this.name = userName
         this.email = emailAddress
-        this.account = new 
         this.account = new BankAccount(2, 0);
     }
 
     makeDeposit(amt) {
-        this.accountBalance += amt;
+        this.account.deposit(amt);
         return this;
     }
 
     makeWithdrawal(amt) {
-        this.accountBalance -= amt;
+        this.account.withdraw(amt);
         return this;
     }
 
     displayBalance() {
-        console.log(`${this.name}'s account balance is :`+ " $"+ `${this.accountBalance}`);
+        console.log(`${this.name}'s account balance is :`);
+        this.account.displayAccountInfo();
         return this;
     }
 
     transferMoney(user, amt) {
-        this.accountBalance -= amt;
-        user.accountBalance += amt;
+        this.makeWithdrawal(amt);
+        user.makeDeposit(amt);
         return this;
     }
 
 
 }
+const chris = new User("Chris Morton", "chris.morton.chris@gmail.com");
+const misty = new User("Misty Morton", "misty.morton@gmail.com")
+chris.displayBalance().makeDeposit(883).makeWithdrawal(98).displayBalance();
+misty.displayBalance().makeDeposit(8374).makeDeposit(34).makeWithdrawal(34).displayBalance();
+chris.transferMoney(misty, 500).displayBalance();
+misty.displayBalance();
 
 // const chris = new User("Chris Morton", "chris.morton.chris@gmail.com");
 // const misty = new User("Misty Morton", "marowe0000@gmail.com");
